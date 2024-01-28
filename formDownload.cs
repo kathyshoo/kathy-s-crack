@@ -16,12 +16,14 @@ using SevenZip;
 using System.Threading;
 using System.Reflection;
 using kathy_s_crack.Properties;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace kathy_s_crack
 {
     public partial class formDownload : Form
     {
-        String urlToDlc = "https://pixeldrain.com/api/file/p6EHfzcB?download";
+        string urlToDlc = "https://pixeldrain.com/api/file/p6EHfzcB?download";
+
 
         public formDownload()
         {
@@ -35,8 +37,8 @@ namespace kathy_s_crack
             label2.BackColor = System.Drawing.Color.Transparent;
             label3.BackColor = System.Drawing.Color.Transparent;
             label4.BackColor = System.Drawing.Color.Transparent;
-            string urlCrack = GlobalFields.dictSource[0];
-            string urlDLC = GlobalFields.dictSource[1];
+            // string urlCrack = GlobalFields.dictSource[0];
+            // string urlDLC = GlobalFields.dictSource[1];
 
             string resourceName;
             string tempNameFile;
@@ -68,11 +70,23 @@ namespace kathy_s_crack
             }
             SevenZipCompressor.SetLibraryPath(tempNameFile);
 
+            using (Stream stream1 = Assembly.GetExecutingAssembly().GetManifestResourceStream("cream_api.zip"))
+            {
+                if (stream1 != null)
+                {
+                    using (var res = new FileStream("crack.zip", FileMode.Create))
+                    {
+                        stream1.CopyTo(res);
+                    }
+                }
+            }
+
+
             if (GlobalFields.methodInstall == "download + crack dlcs")
             {
                 label4.Text = "downloading";
-                await downloadFromSite(urlDLC, "dlcs.rar");
-                await downloadFromSite(urlCrack, "crack.zip");
+                await downloadFromSite(urlToDlc, "dlcs.rar");
+                // await downloadFromSite(urlCrack, "crack.zip");
 
                 if (File.Exists($"{GlobalFields.pathGame}\\steam_api.dll"))
                 {
@@ -115,7 +129,9 @@ namespace kathy_s_crack
             else if (GlobalFields.methodInstall == "only crack dlcs")
             {
                 label4.Text = "downloading";
-                await downloadFromSite(urlCrack, "crack.zip");
+                // await downloadFromSite(urlCrack, "crack.zip");
+
+                progressDownload.Value = 100;
 
                 if (File.Exists($"{GlobalFields.pathGame}\\steam_api.dll") && !File.Exists($"{GlobalFields.pathGame}\\steam_api_o.dll"))
                 {
