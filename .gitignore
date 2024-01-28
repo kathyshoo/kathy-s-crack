@@ -1,0 +1,15 @@
+7z*.dll
+*.jpg
+*.png
+*.ico
+App.config
+*.xml
+Properties/
+.git/
+bin/
+obj/
+packages/
+Properties/
+Fody*
+*.config
+.vs/
