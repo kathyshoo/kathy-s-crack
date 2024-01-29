@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.Compression;
 using static kathy_s_crack.mainForm;
 using System.IO;
 using SevenZip;
-using System.Threading;
 using System.Reflection;
-using kathy_s_crack.Properties;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace kathy_s_crack
 {
@@ -151,6 +140,8 @@ namespace kathy_s_crack
                 {
                     await szcArchive.ExtractArchiveAsync(GlobalFields.pathGame);
                 }
+
+                
 
                 label4.Text = "ready...";
 

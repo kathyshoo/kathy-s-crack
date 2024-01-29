@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Win32;
-
 
 namespace kathy_s_crack
 {
@@ -22,33 +12,30 @@ namespace kathy_s_crack
             InitializeComponent();
         }
 
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             labelError.BackColor = System.Drawing.Color.Transparent;
-            // labelError.Hide();
-            
-            string pathFromRegistry = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\KathyCrack", "pathToHOI4", "null").ToString();
-            if (pathFromRegistry == "null")
+
+            GlobalFields.pathToSaveFile = Environment.ExpandEnvironmentVariables("%appdata%") + "\\KathyCrack";
+            Directory.CreateDirectory(GlobalFields.pathToSaveFile);
+            GlobalFields.pathToSaveFile = GlobalFields.pathToSaveFile + "\\saveData";
+
+            if (File.Exists(GlobalFields.pathToSaveFile))
             {
-                textPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\";
-                
+                using (FileStream file = File.OpenRead(GlobalFields.pathToSaveFile))
+                {
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    string textFromFile = Encoding.Default.GetString(buffer);
+                    textPath.Text = textFromFile;
+                }
             }
             else
             {
-                textPath.Text = pathFromRegistry;
+                File.Create(GlobalFields.pathToSaveFile);
+                textPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\";
             }
-
             comboBoxGame.Text = "download + crack dlcs";
-
-            // "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV";
-            // string tempSorce;
-            /* using (WebClient wc = new WebClient())
-            {
-                tempSorce = wc.DownloadString("https://raw.githubusercontent.com/kathyshoo/kinfo/main/infos/info.txt");
-            }
-            GlobalFields.dictSource = new[] { tempSorce.Split('\n')[0].Split('$')[1], tempSorce.Split('\n')[1].Split('$')[1] };*/
         }
 
         private void textChanged_Check(object sender, EventArgs e)
@@ -57,32 +44,25 @@ namespace kathy_s_crack
             {
                 labelError.Hide();
                 btnStart.Enabled = true;
-                // btnStart.Show();
             }
             else
             {
                 labelError.Show();
                 btnStart.Enabled = false;
-                // btnStart.Hide();
             }
             GlobalFields.pathGame = textPath.Text;
-            // labelError.Text = textPath.Text + "\\hoi4.exe";
         }
 
         private void btnStart_click(object sender, EventArgs e)
         {
             GlobalFields.methodInstall = comboBoxGame.Text;
-            Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\KathyCrack", "pathToHOI4", GlobalFields.pathGame);
-            // GlobalFields.pathGame = textPath.Text;
-            /* if (!Directory.Exists(GlobalFields.pathGame))
+            
+            using (FileStream file = File.Create(GlobalFields.pathToSaveFile))
             {
-                MessageBox.Show(
-                "The folder is specified incorrectly. Please select the correct folder where the game is located.",
-                "Incorrect folder",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-                );
-            } */
+                byte[] buffer = Encoding.Default.GetBytes(GlobalFields.pathGame);
+                file.Write(buffer, 0, buffer.Length);
+            }
+
             if (comboBoxGame.Text == "")
             {
                 MessageBox.Show(
@@ -98,27 +78,23 @@ namespace kathy_s_crack
                 Form downloadForm = new formDownload();
                 downloadForm.ShowDialog();
             }
-            
         }
 
         public static class GlobalFields
         {
             public static string pathGame { get; set; }
             public static string methodInstall { get; set; }
-            // public static string tempSorce { get; set; }
-            // public static string[] dictSource { get; set; }
+            public static string pathToSaveFile { get; set; }
         }
 
         private void btnSelectPath_click(object sender, EventArgs e)
         {
-            // string pathGame = selectFolderPath.SelectedPath;
             DialogResult selectPathResult = selectFolderPath.ShowDialog();
             if (selectPathResult == DialogResult.OK)
             {
                 textPath.Text = selectFolderPath.SelectedPath;
                 GlobalFields.pathGame = selectFolderPath.SelectedPath;
             }
-            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
