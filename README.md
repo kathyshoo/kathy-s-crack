@@ -1,10 +1,15 @@
 # kathy's crack
-## About
-This program was created for easy download and install crac and DLCs for game HoI4. It was created for your own convenience and is not intended for public use, so there may be quite a few errors and bugs.
-## How to use
-1. Download .exe file from [Releases](https://github.com/kathyshoo/kathy-s-crack/releases)
-2. Run the exe file and, depending on your requirements, select the installation option and the path to the installed game
-3. Press crack and wait
-4. When the installation is complete, click the button "Close" and close the program
-## Requirements
+## О программе
+Программа для установки как самих DLC, так и кряка на них. Создана, для чтобы не требовалось покупать DLC для HOI4.
+Позволяет использовать все DLC существующие на данный момент на лицензии при покупке одной только игры.
+## Как использовать
+1. Установить .NET Desktop Runtime 8.0.0+ [ссылка](https://dotnet.microsoft.com/en-us/download)
+2. Скачать exe из [Releases](https://github.com/kathyshoo/kathy-s-crack/releases)
+3. Запустить файл и следовать инструкция в самой программе (выбор папки игры и варианта установки)
+   only crack dlcs - если у вас уже установлены дополнения, или например при слёте кряка
+   download + crack dlcs - для скачивания установки как dlc так и кряка
+   p.s. если игра пишет что не найден оригинальный dll, то проверьте целостности игры, а затем снова поставьте кряк
+4. Ждать.. пока скачаются DLC (если конечно вы выбрали второй вариант)
+6. Закрыть программу и запустить игру
+## Требования
 .NET Desktop Runtime 8.0.0+
