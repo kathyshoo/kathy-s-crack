@@ -70,7 +70,7 @@ namespace kathy_s_crack
             }
             SevenZipCompressor.SetLibraryPath(tempNameFile);
 
-            using (Stream stream1 = Assembly.GetExecutingAssembly().GetManifestResourceStream("cream_api.zip"))
+            using (Stream stream1 = Assembly.GetExecutingAssembly().GetManifestResourceStream("kathy_s_crack.cream_api.zip"))
             {
                 if (stream1 != null)
                 {
@@ -78,6 +78,10 @@ namespace kathy_s_crack
                     {
                         stream1.CopyTo(res);
                     }
+                }
+                else
+                {
+
                 }
             }
 

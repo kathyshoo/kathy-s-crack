@@ -10,16 +10,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 
 namespace kathy_s_crack
 {
     public partial class mainForm : Form
     {
-        // string 
-        // string pathGame;
-        // string methodInstall;
-
         public mainForm()
         {
             InitializeComponent();
@@ -31,15 +28,27 @@ namespace kathy_s_crack
         {
             labelError.BackColor = System.Drawing.Color.Transparent;
             // labelError.Hide();
-            textPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\";
+            
+            string pathFromRegistry = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\KathyCrack", "pathToHOI4", "null").ToString();
+            if (pathFromRegistry == "null")
+            {
+                textPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV\\";
+                
+            }
+            else
+            {
+                textPath.Text = pathFromRegistry;
+            }
+
             comboBoxGame.Text = "download + crack dlcs";
+
             // "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hearts of Iron IV";
-            string tempSorce;
-            using (WebClient wc = new WebClient())
+            // string tempSorce;
+            /* using (WebClient wc = new WebClient())
             {
                 tempSorce = wc.DownloadString("https://raw.githubusercontent.com/kathyshoo/kinfo/main/infos/info.txt");
             }
-            GlobalFields.dictSource = new[] { tempSorce.Split('\n')[0].Split('$')[1], tempSorce.Split('\n')[1].Split('$')[1] };
+            GlobalFields.dictSource = new[] { tempSorce.Split('\n')[0].Split('$')[1], tempSorce.Split('\n')[1].Split('$')[1] };*/
         }
 
         private void textChanged_Check(object sender, EventArgs e)
@@ -63,6 +72,7 @@ namespace kathy_s_crack
         private void btnStart_click(object sender, EventArgs e)
         {
             GlobalFields.methodInstall = comboBoxGame.Text;
+            Registry.SetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\KathyCrack", "pathToHOI4", GlobalFields.pathGame);
             // GlobalFields.pathGame = textPath.Text;
             /* if (!Directory.Exists(GlobalFields.pathGame))
             {
@@ -96,7 +106,7 @@ namespace kathy_s_crack
             public static string pathGame { get; set; }
             public static string methodInstall { get; set; }
             // public static string tempSorce { get; set; }
-            public static string[] dictSource { get; set; }
+            // public static string[] dictSource { get; set; }
         }
 
         private void btnSelectPath_click(object sender, EventArgs e)
