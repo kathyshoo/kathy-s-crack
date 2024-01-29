@@ -7,4 +7,4 @@ This program was created for easy download and install crac and DLCs for game Ho
 3. Press crack and wait
 4. When the installation is complete, click the button "Close" and close the program
 ## Requirements
-.NET Desktop Runtime 8.0.0+ ([click]([https://dotnetwebsite.azurewebsites.net/en-us/download]))
+.NET Desktop Runtime 8.0.0+
