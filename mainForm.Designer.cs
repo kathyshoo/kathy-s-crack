@@ -36,6 +36,7 @@
             this.roundBtn1 = new kathy_s_crack.RoundBtn();
             this.btnCancel = new kathy_s_crack.RoundBtn();
             this.btnStart = new kathy_s_crack.RoundBtn();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textPath
@@ -54,12 +55,13 @@
             this.comboBoxGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxGame.FormattingEnabled = true;
             this.comboBoxGame.Items.AddRange(new object[] {
-            "download + crack dlcs",
-            "only crack dlcs"});
+            "кряк со скачивание dlc",
+            "только кряк"});
             this.comboBoxGame.Location = new System.Drawing.Point(236, 117);
             this.comboBoxGame.Name = "comboBoxGame";
             this.comboBoxGame.Size = new System.Drawing.Size(187, 26);
             this.comboBoxGame.TabIndex = 4;
+            this.comboBoxGame.SelectedIndexChanged += new System.EventHandler(this.comboBoxGame_SelectedIndexChanged);
             // 
             // selectFolderPath
             // 
@@ -72,9 +74,9 @@
             this.labelError.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.labelError.Location = new System.Drawing.Point(123, 155);
             this.labelError.Name = "labelError";
-            this.labelError.Size = new System.Drawing.Size(365, 18);
+            this.labelError.Size = new System.Drawing.Size(392, 18);
             this.labelError.TabIndex = 6;
-            this.labelError.Text = "The executable file was not found in the selected folder";
+            this.labelError.Text = "Исполняемый файл не был найден в выбранной папке";
             // 
             // roundBtn1
             // 
@@ -91,7 +93,7 @@
             this.roundBtn1.Name = "roundBtn1";
             this.roundBtn1.Size = new System.Drawing.Size(109, 26);
             this.roundBtn1.TabIndex = 3;
-            this.roundBtn1.Text = "select path";
+            this.roundBtn1.Text = "обзор...";
             this.roundBtn1.TextColor = System.Drawing.Color.White;
             this.roundBtn1.UseVisualStyleBackColor = false;
             this.roundBtn1.Click += new System.EventHandler(this.btnSelectPath_click);
@@ -111,7 +113,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(107, 37);
             this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "cancel";
+            this.btnCancel.Text = "отмена";
             this.btnCancel.TextColor = System.Drawing.Color.WhiteSmoke;
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -131,10 +133,21 @@
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(107, 37);
             this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "crack";
+            this.btnStart.Text = "начать";
             this.btnStart.TextColor = System.Drawing.Color.WhiteSmoke;
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.label1.Location = new System.Drawing.Point(12, 324);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(364, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Для скачивания на диске требуется примерно 2,5 ГБ";
             // 
             // mainForm
             // 
@@ -143,6 +156,7 @@
             this.BackColor = System.Drawing.SystemColors.Desktop;
             this.BackgroundImage = global::kathy_s_crack.Properties.Resources.back_space;
             this.ClientSize = new System.Drawing.Size(638, 353);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.comboBoxGame);
             this.Controls.Add(this.roundBtn1);
@@ -169,6 +183,7 @@
         private System.Windows.Forms.ComboBox comboBoxGame;
         private System.Windows.Forms.FolderBrowserDialog selectFolderPath;
         private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -11,7 +11,7 @@ namespace kathy_s_crack
 {
     public partial class formDownload : Form
     {
-        string urlToDlc = "https://pixeldrain.com/api/file/p6EHfzcB?download";
+        string urlToDlc = "https://pixeldrain.com/api/file/VBpRs1ec?download";
 
 
         public formDownload()
@@ -28,6 +28,8 @@ namespace kathy_s_crack
             label4.BackColor = System.Drawing.Color.Transparent;
             // string urlCrack = GlobalFields.dictSource[0];
             // string urlDLC = GlobalFields.dictSource[1];
+
+            deleteTempFile();
 
             string resourceName;
             string tempNameFile;
@@ -47,7 +49,7 @@ namespace kathy_s_crack
                 if (stream != null)
                 {
                     // Пример: копируем встроенный ресурс в файл на диске
-                    using (var res = new FileStream(tempNameFile, FileMode.Create))
+                    using (var res = new FileStream(GlobalFields.pathToSaveDirectory + tempNameFile, FileMode.Create))
                     {
                         stream.CopyTo(res);
                     }
@@ -63,65 +65,51 @@ namespace kathy_s_crack
             {
                 if (stream1 != null)
                 {
-                    using (var res = new FileStream("crack.zip", FileMode.Create))
+                    using (var res = new FileStream(GlobalFields.pathToSaveDirectory + "crack.zip", FileMode.Create))
                     {
                         stream1.CopyTo(res);
                     }
                 }
-                else
-                {
-
-                }
             }
 
 
-            if (GlobalFields.methodInstall == "download + crack dlcs")
+            if (GlobalFields.methodInstall == "кряк со скачивание dlc")
             {
-                label4.Text = "downloading";
-                await downloadFromSite(urlToDlc, "dlcs.rar");
+                label4.Text = "скачивание...";
+                await downloadFromSite(urlToDlc, GlobalFields.pathToSaveDirectory + "dlcs.rar");
                 // await downloadFromSite(urlCrack, "crack.zip");
 
-                if (File.Exists($"{GlobalFields.pathGame}\\steam_api.dll"))
+                if (File.Exists($"{GlobalFields.pathGame}\\steam_api.dll") && !File.Exists($"{GlobalFields.pathGame}\\steam_api_o.dll"))
                 {
                     File.Move($"{GlobalFields.pathGame}\\steam_api.dll", $"{GlobalFields.pathGame}\\steam_api_o.dll");
                 }
-                if (File.Exists($"{GlobalFields.pathGame}\\steam_api64.dll"))
+                if (File.Exists($"{GlobalFields.pathGame}\\steam_api64.dll") && !File.Exists($"{GlobalFields.pathGame}\\steam_api64_o.dll"))
                 {
                     File.Move($"{GlobalFields.pathGame}\\steam_api64.dll", $"{GlobalFields.pathGame}\\steam_api64_o.dll");
                 }
 
-                label4.Text = "unpacking";
-                using (SevenZipExtractor szcArchive = new SevenZipExtractor("crack.zip")) 
+                label4.Text = "распаковка...";
+                using (SevenZipExtractor szcArchive = new SevenZipExtractor(GlobalFields.pathToSaveDirectory + "crack.zip")) 
                 {
                     await szcArchive.ExtractArchiveAsync(GlobalFields.pathGame);
                 }
-                using (SevenZipExtractor szcArchive = new SevenZipExtractor("dlcs.rar", "cs.rin.ru"))
+                using (SevenZipExtractor szcArchive = new SevenZipExtractor(GlobalFields.pathToSaveDirectory + "dlcs.rar", "cs.rin.ru"))
                 {
                     await szcArchive.ExtractArchiveAsync(GlobalFields.pathGame);
                 }
                 // ZipFile.ExtractToDirectory("crack.zip", GlobalFields.pathGame);
-                label4.Text = "ready...";
+                label4.Text = "Завершено!";
 
-                File.Delete("crack.zip");
-                File.Delete("dlcs.rar");
+                deleteTempFile();
 
-                if (File.Exists("7z.dll"))
-                {
-                    File.Delete("7z.dll");
-                }
-                else if (File.Exists("7z64.dll"))
-                {
-                    File.Delete("7z64.dll");
-                }
-
-                MessageBox.Show("The task is completed",
-                    "Succesfully",
+                MessageBox.Show("Установка выполнена",
+                    "Удача",
                     MessageBoxButtons.OK);
                 btnCancel.Show();
             }
-            else if (GlobalFields.methodInstall == "only crack dlcs")
+            else if (GlobalFields.methodInstall == "только кряк")
             {
-                label4.Text = "downloading";
+                label4.Text = "скачивание...";
                 // await downloadFromSite(urlCrack, "crack.zip");
 
                 progressDownload.Value = 100;
@@ -135,29 +123,20 @@ namespace kathy_s_crack
                     File.Move($"{GlobalFields.pathGame}\\steam_api64.dll", $"{GlobalFields.pathGame}\\steam_api64_o.dll");
                 }
 
-                label4.Text = "unpacking";
-                using (SevenZipExtractor szcArchive = new SevenZipExtractor("crack.zip"))
+                label4.Text = "распаковка...";
+                using (SevenZipExtractor szcArchive = new SevenZipExtractor(GlobalFields.pathToSaveDirectory + "crack.zip"))
                 {
                     await szcArchive.ExtractArchiveAsync(GlobalFields.pathGame);
                 }
 
                 
 
-                label4.Text = "ready...";
+                label4.Text = "Завершено!";
 
-                File.Delete("crack.zip");
+                deleteTempFile();
 
-                if (File.Exists("7z.dll"))
-                {
-                    File.Delete("7z.dll");
-                }
-                else if (File.Exists("7z64.dll"))
-                {
-                    File.Delete("7z64.dll");
-                }
-
-                MessageBox.Show("The task is completed",
-                    "Succesfully",
+                MessageBox.Show("Установка выполнена",
+                    "Удача",
                     MessageBoxButtons.OK);
 
                 
@@ -167,14 +146,33 @@ namespace kathy_s_crack
             }
         }
 
+        public void deleteTempFile()
+        {
+            if (File.Exists(GlobalFields.pathToSaveDirectory + "7z.dll"))
+            {
+                File.Delete(GlobalFields.pathToSaveDirectory + "7z.dll");
+            }
+            if (File.Exists(GlobalFields.pathToSaveDirectory + "7z64.dll"))
+            {
+                File.Delete(GlobalFields.pathToSaveDirectory + "7z64.dll");
+            }
+            if (File.Exists(GlobalFields.pathToSaveDirectory + "crack.zip"))
+            {
+                File.Delete(GlobalFields.pathToSaveDirectory + "crack.zip");
+            }
+            if (File.Exists(GlobalFields.pathToSaveDirectory + "dlcs.rar"))
+            {
+                File.Delete(GlobalFields.pathToSaveDirectory + "dlcs.rar");
+            }
+        }
+
         public async Task downloadFromSite(string urlFile, string nameFile)
         {
-            
             using (WebClient wc = new WebClient())
             {
                 wc.DownloadProgressChanged += (s, ex) =>
                 {
-                    label2.Text = $"Downloaded: {ex.ProgressPercentage}% ({((double)ex.BytesReceived / 1048576).ToString("#.#")} MB)";
+                    label2.Text = $"Скачано: {ex.ProgressPercentage}% ({((double)ex.BytesReceived / 1048576).ToString("#.#")} МБ)";
                     progressDownload.Value = ex.ProgressPercentage;
                 };
                 await wc.DownloadFileTaskAsync(new Uri(urlFile), nameFile);
